@@ -2315,6 +2315,304 @@
       </script>
     </section>
 
+    <section data-tela="notificacoes" class="hidden">
+      <div class="px-4 pt-2 pb-20">
+        <div class="mt-4 mb-5">
+          <h1 class="font-display text-2xl font-bold text-gray-900">Notificações</h1>
+          <p class="text-sm text-gray-500 mt-1">Acompanhe seus pedidos, promoções e atualizações</p>
+        </div>
+
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex gap-1 bg-gray-100 rounded-xl p-1 flex-1">
+            <button onclick="notificacoes_trocarAba('todas')" id="aba-todas" class="aba-ativa flex-1 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 bg-white text-marca-700 shadow-sm">Todas</button>
+            <button onclick="notificacoes_trocarAba('pedidos')" id="aba-pedidos" class="flex-1 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 text-gray-500 hover:text-gray-700">Pedidos</button>
+            <button onclick="notificacoes_trocarAba('promocoes')" id="aba-promocoes" class="flex-1 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 text-gray-500 hover:text-gray-700">Promoções</button>
+            <button onclick="notificacoes_trocarAba('sistema')" id="aba-sistema" class="flex-1 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 text-gray-500 hover:text-gray-700">Sistema</button>
+          </div>
+        </div>
+
+        <div id="nao-lidas-count" class="mb-3">
+          <span class="inline-flex items-center gap-1.5 text-xs font-medium text-red-600 bg-red-50 px-2.5 py-1 rounded-full">
+            <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+            <span id="count-nao-lidas">4</span> não lidas
+          </span>
+        </div>
+
+        <button onclick="notificacoes_marcarTodasLidas()" id="btn-marcar-lidas" class="w-full mb-4 py-2.5 text-sm font-medium text-marca-700 bg-marca-50 rounded-xl hover:bg-marca-100 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+          Marcar todas como lidas
+        </button>
+
+        <div id="lista-notificacoes" class="space-y-3">
+        </div>
+
+        <div id="estado-vazio" class="hidden text-center py-12">
+          <div class="w-16 h-16 mx-auto bg-gray-100 rounded-full flex items-center justify-center mb-3">
+            <svg class="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/></svg>
+          </div>
+          <p class="text-sm text-gray-500 font-medium">Nenhuma notificação nesta categoria</p>
+          <p class="text-xs text-gray-400 mt-1">Você está em dia!</p>
+        </div>
+
+        <div class="mt-6 pt-5 border-t border-gray-100">
+          <button onclick="notificacoes_abrirPreferencias()" class="w-full py-3 text-sm font-semibold text-marca-700 bg-marca-50 rounded-xl hover:bg-marca-100 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            Preferências de Notificação
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <script>
+    (function() {
+      var notificacoes = [
+        { id: 1, tipo: 'pedido', categoria: 'pedidos', icone: 'caixa', prioridade: 'verde', titulo: 'Pedido #12847 confirmado', descricao: 'Seu pedido de Fone Bluetooth JBL Tune 510BT foi confirmado e está sendo separado.', timestamp: Date.now() - 120000, lida: false, produto: 'Fone Bluetooth JBL Tune 510BT', valor: 189.90 },
+        { id: 2, tipo: 'pedido', categoria: 'pedidos', icone: 'caminhao', prioridade: 'azul', titulo: 'Pedido #12847 em trânsito', descricao: 'Seu pedido saiu para entrega! Previsão: hoje, entre 14h e 18h.', timestamp: Date.now() - 3600000, lida: false, produto: 'Fone Bluetooth JBL Tune 510BT', valor: 189.90 },
+        { id: 3, tipo: 'pedido', categoria: 'pedidos', icone: 'entrega', prioridade: 'verde', titulo: 'Pedido #12847 entregue', descricao: 'Seu pedido foi entregue com sucesso. Obrigado pela compra!', timestamp: Date.now() - 7200000, lida: false, produto: 'Fone Bluetooth JBL Tune 510BT', valor: 189.90 },
+        { id: 4, tipo: 'promocao', categoria: 'promocoes', icone: 'presente', prioridade: 'laranja', titulo: 'Oferta relâmpago: 30% OFF', descricao: 'Aproveite até 50% OFF em smartwatches. Oferta válida só hoje!', timestamp: Date.now() - 1800000, lida: false, produto: null, valor: null },
+        { id: 5, tipo: 'sistema', categoria: 'sistema', icone: 'sino', prioridade: 'azul', titulo: 'Atualização do app disponível', descricao: 'Nova versão 2.4.1 com correções e melhorias de desempenho.', timestamp: Date.now() - 86400000, lida: true, produto: null, valor: null },
+        { id: 6, tipo: 'pedido', categoria: 'pedidos', icone: 'avaliacao', prioridade: 'azul', titulo: 'Avalie seu pedido #12847', descricao: 'Conte como foi sua experiência. Sua opinião ajuda outros clientes!', timestamp: Date.now() - 90000000, lida: true, produto: 'Fone Bluetooth JBL Tune 510BT', valor: 189.90 },
+        { id: 7, tipo: 'promocao', categoria: 'promocoes', icone: 'cupom', prioridade: 'verde', titulo: 'Cupom de aniversário!', descricao: 'Parabéns! Use o cupom ANIVER20 e ganhe 20% OFF na sua próxima compra. Válido por 7 dias.', timestamp: Date.now() - 172800000, lida: true, produto: null, valor: null },
+        { id: 8, tipo: 'sistema', categoria: 'sistema', icone: 'seguranca', prioridade: 'laranja', titulo: 'Novo login detectado', descricao: 'Entramos em sua conta a partir de um dispositivo iPhone em São Paulo, SP. Foi você?', timestamp: Date.now() - 259200000, lida: true, produto: null, valor: null },
+        { id: 9, tipo: 'promocao', categoria: 'promocoes', icone: 'fidelidade', prioridade: 'azul', titulo: 'Você é Cliente Ouro!', descricao: 'Acumulou R$ 3.200,00 em compras. Você ganhou frete grátis vitalício em compras acima de R$ 100.', timestamp: Date.now() - 432000000, lida: true, produto: null, valor: null },
+        { id: 10, tipo: 'sistema', categoria: 'sistema', icone: 'manutencao', prioridade: 'vermelho', titulo: 'Manutenção programada', descricao: 'No dia 15/02, das 02h às 04h, o sistema estará em manutenção. Planeje-se!', timestamp: Date.now() - 604800000, lida: true, produto: null, valor: null },
+      ];
+
+      window.notificacoes = notificacoes;
+      var abaAtual = 'todas';
+
+      function iconePorTipo(tipo) {
+        var icones = {
+          caixa: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>',
+          caminhao: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17h.01M16 17h.01M3 11l2-6h14l2 6M5 11v6a1 1 0 001 1h3m10-10v6a1 1 0 01-1 1h-3m-6 0a1 1 0 001 1h.01M17 11a1 1 0 011 1v1h1a1 1 0 011 1v2.283a2 2 0 01-.586 1.414l-1.414 1.414A2 2 0 0118 18.414V21a1 1 0 01-1 1h-2a1 1 0 01-1-1v-2.586a2 2 0 00-.586-1.414l-1.414-1.414A2 2 0 0111 14.283V13a1 1 0 00-1-1H9a1 1 0 00-1 1v1.283a2 2 0 01-.586 1.414l-1.414 1.414A2 2 0 015 17.414V21a1 1 0 01-1 1H3a1 1 0 01-1-1v-2.586a2 2 0 01.586-1.414l1.414-1.414A2 2 0 015 14.283V13a1 1 0 011-1h10a1 1 0 011 1z"/></svg>',
+          entrega: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>',
+          presente: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"/></svg>',
+          cupom: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3.42a2 2 0 01.636 1.237L7 14.42V19a2 2 0 002 2h10a2 2 0 002-2v-4.58l1.364-1.763A2 2 0 0121 10.42V7a2 2 0 00-2-2H5z"/></svg>',
+          sino: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>',
+          avaliacao: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>',
+          seguranca: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>',
+          fidelidade: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>',
+          manutencao: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"/></svg>'
+        };
+        return icones[tipo] || icones.sino;
+      }
+
+      function prioridadeCor(prio) {
+        var cores = {
+          verde: { bg: 'bg-emerald-50', border: 'border-emerald-200', iconBg: 'bg-emerald-100', iconText: 'text-emerald-600', dot: 'bg-emerald-500' },
+          azul: { bg: 'bg-blue-50', border: 'border-blue-200', iconBg: 'bg-blue-100', iconText: 'text-blue-600', dot: 'bg-blue-500' },
+          laranja: { bg: 'bg-amber-50', border: 'border-amber-200', iconBg: 'bg-amber-100', iconText: 'text-amber-600', dot: 'bg-amber-500' },
+          vermelho: { bg: 'bg-red-50', border: 'border-red-200', iconBg: 'bg-red-100', iconText: 'text-red-600', dot: 'bg-red-500' }
+        };
+        return cores[prio] || cores.azul;
+      }
+
+      function tempoRelativo(ts) {
+        var diff = Date.now() - ts;
+        var seg = Math.floor(diff / 1000);
+        if (seg < 60) return 'agora mesmo';
+        var min = Math.floor(seg / 60);
+        if (min < 60) return 'há ' + min + ' min' + (min > 1 ? '' : '');
+        var hrs = Math.floor(min / 60);
+        if (hrs < 24) return 'há ' + hrs + 'h';
+        var dias = Math.floor(hrs / 24);
+        if (dias < 7) return 'há ' + dias + 'd';
+        return 'há ' + Math.floor(dias / 7) + ' sem';
+      }
+
+      function renderizar() {
+        var filtradas = notificacoes.filter(function(n) {
+          if (abaAtual === 'todas') return true;
+          return n.categoria === abaAtual;
+        });
+
+        filtradas.sort(function(a, b) { return b.timestamp - a.timestamp; });
+
+        var container = document.getElementById('lista-notificacoes');
+        var vazio = document.getElementById('estado-vazio');
+
+        if (filtradas.length === 0) {
+          container.innerHTML = '';
+          vazio.classList.remove('hidden');
+          return;
+        }
+        vazio.classList.add('hidden');
+
+        var html = '';
+        filtradas.forEach(function(n) {
+          var cor = prioridadeCor(n.prioridade);
+          var naoLidaClass = n.lida ? 'opacity-60' : '';
+          var naoLidaDot = n.lida ? '' : '<span class="w-2 h-2 bg-marca-500 rounded-full flex-shrink-0 ml-1"></span>';
+          var miniCard = '';
+          if (n.tipo === 'pedido' && n.produto) {
+            miniCard = '<div class="mt-2.5 bg-white rounded-lg p-2.5 border border-gray-100 flex items-center justify-between">' +
+              '<div class="flex items-center gap-2.5">' +
+                '<div class="w-9 h-9 rounded-lg bg-gradient-to-br from-marca-100 to-marca-50 flex items-center justify-center text-marca-600">' +
+                  '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>' +
+                '</div>' +
+                '<div class="min-w-0">' +
+                  '<p class="text-xs font-semibold text-gray-800 truncate max-w-[180px]">' + n.produto + '</p>' +
+                  (n.valor ? '<p class="text-xs text-marca-600 font-medium">R$ ' + n.valor.toFixed(2).replace('.', ',') + '</p>' : '') +
+                '</div>' +
+              '</div>' +
+              '<button onclick="notificacoes_verPedido(' + n.id + ')" class="text-xs font-semibold text-marca-600 bg-marca-50 px-3 py-1.5 rounded-lg active:scale-95 transition-all hover:bg-marca-100">Ver Pedido</button>' +
+            '</div>';
+          }
+
+          html += '<div class="' + cor.bg + ' ' + cor.border + ' border rounded-2xl p-3.5 transition-all duration-200 hover:shadow-md cursor-pointer ' + naoLidaClass + '" onclick="notificacoes_marcarLida(' + n.id + ')">' +
+            '<div class="flex gap-3">' +
+              '<div class="' + cor.iconBg + ' ' + cor.iconText + ' w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0">' +
+                iconePorTipo(n.icone) +
+              '</div>' +
+              '<div class="flex-1 min-w-0">' +
+                '<div class="flex items-start justify-between gap-2">' +
+                  '<div class="flex items-center gap-1">' +
+                    '<h3 class="text-sm font-semibold text-gray-900 leading-tight">' + n.titulo + '</h3>' +
+                    naoLidaDot +
+                  '</div>' +
+                  '<span class="text-[10px] text-gray-400 whitespace-nowrap flex-shrink-0 mt-0.5">' + tempoRelativo(n.timestamp) + '</span>' +
+                '</div>' +
+                '<p class="text-xs text-gray-600 mt-1 leading-relaxed">' + n.descricao + '</p>' +
+                miniCard +
+              '</div>' +
+            '</div>' +
+          '</div>';
+        });
+
+        container.innerHTML = html;
+        atualizarContadorNaoLidas();
+      }
+
+      function atualizarContadorNaoLidas() {
+        var count = notificacoes.filter(function(n) { return !n.lida; }).length;
+        var el = document.getElementById('count-nao-lidas');
+        var countEl = document.getElementById('nao-lidas-count');
+        var btnMarcar = document.getElementById('btn-marcar-lidas');
+        if (count > 0) {
+          el.textContent = count;
+          countEl.classList.remove('hidden');
+          btnMarcar.classList.remove('opacity-40');
+        } else {
+          countEl.classList.add('hidden');
+          btnMarcar.classList.add('opacity-40');
+        }
+      }
+
+      window.notificacoes_trocarAba = function(aba) {
+        abaAtual = aba;
+        var abas = ['todas', 'pedidos', 'promocoes', 'sistema'];
+        abas.forEach(function(a) {
+          var el = document.getElementById('aba-' + a);
+          if (a === aba) {
+            el.className = 'aba-ativa flex-1 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 bg-white text-marca-700 shadow-sm';
+          } else {
+            el.className = 'flex-1 py-2 px-2 text-xs font-semibold rounded-lg transition-all duration-200 text-gray-500 hover:text-gray-700';
+          }
+        });
+        renderizar();
+      };
+
+      window.notificacoes_marcarLida = function(id) {
+        var n = notificacoes.find(function(x) { return x.id === id; });
+        if (n && !n.lida) {
+          n.lida = true;
+          renderizar();
+          toast('Notificação marcada como lida', 'ok');
+        } else if (n && n.lida) {
+          if (n.tipo === 'pedido') {
+            mostrarTela('meus-pedidos');
+          }
+        }
+      };
+
+      window.notificacoes_marcarTodasLidas = function() {
+        var naoLidas = notificacoes.filter(function(n) { return !n.lida; });
+        if (naoLidas.length === 0) {
+          toast('Todas as notificações já foram lidas', 'info');
+          return;
+        }
+        naoLidas.forEach(function(n) { n.lida = true; });
+        renderizar();
+        toast(naoLidas.length + ' notificações marcadas como lidas', 'ok');
+      };
+
+      window.notificacoes_verPedido = function(id) {
+        var n = notificacoes.find(function(x) { return x.id === id; });
+        if (!n || !n.produto) return;
+        n.lida = true;
+        mostrarTela('meus-pedidos');
+      };
+
+      window.notificacoes_abrirPreferencias = function() {
+        var html = '<div class="space-y-4">' +
+          '<p class="text-sm text-gray-600">Escolha como deseja receber cada tipo de notificação.</p>' +
+          '<div class="space-y-3">' +
+            '<div class="bg-gray-50 rounded-xl p-3.5">' +
+              '<p class="text-sm font-semibold text-gray-800 mb-2">Pedidos</p>' +
+              '<div class="grid grid-cols-2 gap-2">' +
+                notificacoes_prefToggle('pedidos-app', 'App', true, 'pedidos') +
+                notificacoes_prefToggle('pedidos-whatsapp', 'WhatsApp', true, 'pedidos') +
+                notificacoes_prefToggle('pedidos-email', 'E-mail', false, 'pedidos') +
+                notificacoes_prefToggle('pedidos-push', 'Push', true, 'pedidos') +
+              '</div>' +
+            '</div>' +
+            '<div class="bg-gray-50 rounded-xl p-3.5">' +
+              '<p class="text-sm font-semibold text-gray-800 mb-2">Promoções</p>' +
+              '<div class="grid grid-cols-2 gap-2">' +
+                notificacoes_prefToggle('promocoes-app', 'App', true, 'promocoes') +
+                notificacoes_prefToggle('promocoes-whatsapp', 'WhatsApp', false, 'promocoes') +
+                notificacoes_prefToggle('promocoes-email', 'E-mail', true, 'promocoes') +
+                notificacoes_prefToggle('promocoes-push', 'Push', true, 'promocoes') +
+              '</div>' +
+            '</div>' +
+            '<div class="bg-gray-50 rounded-xl p-3.5">' +
+              '<p class="text-sm font-semibold text-gray-800 mb-2">Sistema</p>' +
+              '<div class="grid grid-cols-2 gap-2">' +
+                notificacoes_prefToggle('sistema-app', 'App', true, 'sistema') +
+                notificacoes_prefToggle('sistema-whatsapp', 'WhatsApp', false, 'sistema') +
+                notificacoes_prefToggle('sistema-email', 'E-mail', true, 'sistema') +
+                notificacoes_prefToggle('sistema-push', 'Push', false, 'sistema') +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+        abrirModal(html, 'Preferências de Notificação');
+      };
+
+      window.notificacoes_prefToggle = function(id, label, ativo, grupo) {
+        var check = ativo ? 'checked' : '';
+        var bg = ativo ? 'bg-marca-600' : 'bg-gray-300';
+        var dot = ativo ? 'translate-x-5' : 'translate-x-0.5';
+        return '<div class="flex items-center justify-between bg-white rounded-lg px-3 py-2">' +
+          '<span class="text-xs text-gray-700 font-medium">' + label + '</span>' +
+          '<button onclick="notificacoes_togglePref(this)" class="w-10 h-5 rounded-full ' + bg + ' relative transition-colors duration-200 flex-shrink-0" data-ativo="' + ativo + '">' +
+            '<span class="absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full shadow-sm transition-transform duration-200 ' + dot + '"></span>' +
+          '</button>' +
+        '</div>';
+      };
+
+      window.notificacoes_togglePref = function(btn) {
+        var ativo = btn.dataset.ativo === 'true';
+        var novoAtivo = !ativo;
+        btn.dataset.ativo = novoAtivo;
+        var circle = btn.querySelector('span');
+        if (novoAtivo) {
+          btn.classList.remove('bg-gray-300');
+          btn.classList.add('bg-marca-600');
+          circle.classList.remove('translate-x-0.5');
+          circle.classList.add('translate-x-5');
+        } else {
+          btn.classList.remove('bg-marca-600');
+          btn.classList.add('bg-gray-300');
+          circle.classList.remove('translate-x-5');
+          circle.classList.add('translate-x-0.5');
+        }
+      };
+
+      renderizar();
+    })();
+    </script>
+
     <!-- TELAS -->
 
   </main>
