@@ -891,6 +891,280 @@
       </script>
     </section>
 
+    <section data-tela="carrinho" class="hidden">
+  <div class="px-4 pt-4 pb-24">
+    <div class="mb-5">
+      <h1 class="font-display text-2xl font-bold text-gray-900">Meu Carrinho</h1>
+      <p class="text-sm text-gray-500 mt-1" id="carrinho-contador">3 itens no carrinho</p>
+    </div>
+
+    <div id="carrinho-lista" class="space-y-3"></div>
+
+    <div id="carrinho-vazio" class="hidden text-center py-16">
+      <svg class="w-20 h-20 mx-auto text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+      <p class="font-display font-semibold text-gray-700 text-lg">Carrinho vazio</p>
+      <p class="text-sm text-gray-400 mt-1">Que tal dar uma olhada na vitrine?</p>
+      <button onclick="mostrarTela('vitrine')" class="mt-4 px-6 py-2.5 bg-marca-600 text-white rounded-xl font-semibold text-sm active:scale-95 transition-transform">Ver produtos</button>
+    </div>
+  </div>
+
+  <div id="carrinho-resumo" class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-gray-100 z-40">
+    <div class="max-w-[430px] mx-auto px-4 pt-3 pb-5">
+      <div class="flex items-center gap-2 mb-2">
+        <svg class="w-4 h-4 text-marca-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        <input id="carrinho-cep" type="text" placeholder="Calcular frete por CEP" maxlength="9" class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-marca-500 focus:ring-1 focus:ring-marca-500 transition-colors" oninput="carrinho_aplicarMascaraCEP(this)" onblur="carrinho_calcularFrete()">
+      </div>
+      <div id="carrinho-frete-info" class="text-xs text-gray-400 mb-2 h-4"></div>
+      <div class="flex items-center gap-2 mb-3">
+        <svg class="w-4 h-4 text-marca-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+        <input id="carrinho-cupom" type="text" placeholder="Cupom de desconto" class="flex-1 text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:border-marca-500 focus:ring-1 focus:ring-marca-500 transition-colors uppercase" onblur="carrinho_aplicarCupom()">
+        <button onclick="carrinho_aplicarCupom()" class="text-xs font-semibold text-marca-600 px-3 py-2 hover:bg-marca-50 rounded-lg transition-colors">Aplicar</button>
+      </div>
+      <div id="carrinho-cupom-msg" class="text-xs mb-2 h-4"></div>
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-xs text-gray-500">Subtotal</span>
+        <span class="text-sm font-medium text-gray-700" id="carrinho-subtotal">R$ 0,00</span>
+      </div>
+      <div class="flex justify-between items-center mb-1">
+        <span class="text-xs text-gray-500">Frete</span>
+        <span class="text-sm font-medium" id="carrinho-frete-valor">Grátis</span>
+      </div>
+      <div id="carrinho-desconto-row" class="hidden flex justify-between items-center mb-1">
+        <span class="text-xs text-green-600">Desconto</span>
+        <span class="text-sm font-medium text-green-600" id="carrinho-desconto-valor">- R$ 0,00</span>
+      </div>
+      <div class="border-t border-gray-100 mt-2 pt-2 flex justify-between items-center">
+        <span class="font-display font-bold text-gray-900">Total</span>
+        <span class="font-display font-bold text-xl text-marca-600" id="carrinho-total">R$ 0,00</span>
+      </div>
+      <button onclick="carrinho_irParaPagamento()" class="w-full mt-3 py-3.5 bg-marca-600 text-white rounded-2xl font-display font-bold text-base active:scale-[0.97] transition-all shadow-lg shadow-marca-600/20 hover:bg-marca-700">
+        Continuar para Pagamento
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  const itensIniciais = [
+    { id:1, nome:'Fone Bluetooth SoundX Pro', variacao:'Preto / À prova d\'água', preco:189.90, qtd:1, img:'#2563EB', inicial:'FX', estoque:12, emEstoque:true },
+    { id:3, nome:'Carregador Turbo 65W', variacao:'Branco / USB-C + USB-A', preco:129.90, qtd:2, img:'#1E3A5F', inicial:'CT', estoque:0, emEstoque:false },
+    { id:5, nome:'Suporte de Celular Magnético', variacao:'Prata / Universal', preco:59.90, qtd:1, img:'#6366F1', inicial:'SC', estoque:8, emEstoque:true },
+    { id:7, nome:'Cabo USB-C 2m Trançado', variacao:'Cinza / Nylon', preco:39.90, qtd:3, img:'#0EA5E9', inicial:'CB', estoque:25, emEstoque:true },
+  ];
+
+  let carrinho = JSON.parse(JSON.stringify(itensIniciais));
+  let cupomAplicado = null;
+  let freteValor = 0;
+  let freteGratis = false;
+
+  function render(){
+    const lista = document.getElementById('carrinho-lista');
+    const vazio = document.getElementById('carrinho-vazio');
+    const resumo = document.getElementById('carrinho-resumo');
+    const contador = document.getElementById('carrinho-contador');
+
+    if(carrinho.length === 0){
+      lista.innerHTML = '';
+      vazio.classList.remove('hidden');
+      resumo.classList.add('hidden');
+      contador.textContent = '0 itens no carrinho';
+      return;
+    }
+    vazio.classList.add('hidden');
+    resumo.classList.remove('hidden');
+
+    const totalQtd = carrinho.reduce((a,b)=>a+b.qtd,0);
+    contador.textContent = totalQtd + ' item' + (totalQtd>1?'ens':'') + ' no carrinho';
+
+    lista.innerHTML = carrinho.map(item => `
+      <div class="card bg-white rounded-2xl p-3 border border-gray-100 ${item.emEstoque ? '' : 'border-red-200 bg-red-50/40'}" data-id="${item.id}">
+        <div class="flex gap-3">
+          <div class="w-20 h-20 rounded-xl flex items-center justify-center text-white font-display font-bold text-sm flex-shrink-0 cursor-pointer" style="background:${item.img}" onclick="carrinho_abrirDetalhe(${item.id})">
+            ${item.inicial}
+          </div>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="font-semibold text-sm text-gray-900 leading-tight line-clamp-2 cursor-pointer hover:text-marca-600 transition-colors" onclick="carrinho_abrirDetalhe(${item.id})">${item.nome}</h3>
+              <button onclick="carrinho_remover(${item.id})" class="text-gray-300 hover:text-red-500 transition-colors p-1 -mt-1 -mr-1 flex-shrink-0">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+              </button>
+            </div>
+            <p class="text-xs text-gray-400 mt-0.5 truncate">${item.variacao}</p>
+            ${!item.emEstoque ? '<span class="badge badge-danger text-[10px] mt-1">Fora de estoque</span>' : ''}
+            <div class="flex items-end justify-between mt-2">
+              <div class="flex items-center border border-gray-200 rounded-lg overflow-hidden">
+                <button onclick="carrinho_alterarQtd(${item.id}, -1)" class="px-2.5 py-1.5 text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition-colors text-sm font-bold">−</button>
+                <span class="px-3 py-1.5 text-sm font-semibold text-gray-800 min-w-[2rem] text-center">${item.qtd}</span>
+                <button onclick="carrinho_alterarQtd(${item.id}, 1)" class="px-2.5 py-1.5 text-gray-500 hover:bg-gray-100 active:bg-gray-200 transition-colors text-sm font-bold">+</button>
+              </div>
+              <div class="text-right">
+                <span class="font-display font-bold text-sm text-gray-900">${brl(item.preco * item.qtd)}</span>
+                ${item.qtd > 1 ? `<span class="text-[10px] text-gray-400 block">${brl(item.preco)} cada</span>` : ''}
+              </div>
+            </div>
+            ${!item.emEstoque ? `
+              <div class="flex gap-2 mt-2">
+                <button onclick="carrinho_remover(${item.id})" class="flex-1 text-xs py-1.5 border border-red-200 text-red-600 rounded-lg hover:bg-red-50 active:scale-95 transition-all font-medium">Remover</button>
+                <button onclick="carrinho_notificar(${item.id})" class="flex-1 text-xs py-1.5 border border-marca-200 text-marca-600 rounded-lg hover:bg-marca-50 active:scale-95 transition-all font-medium">Notificar-me</button>
+              </div>
+            ` : ''}
+          </div>
+        </div>
+      </div>
+    `).join('');
+
+    carrinho_atualizarTotais();
+  }
+
+  function carrinho_atualizarTotais(){
+    const subtotal = carrinho.reduce((a,b)=>a + b.preco * b.qtd, 0);
+    const desconto = cupomAplicado ? subtotal * 0.15 : 0;
+    const total = subtotal - desconto + (freteGratis ? 0 : freteValor);
+
+    document.getElementById('carrinho-subtotal').textContent = brl(subtotal);
+    const freteEl = document.getElementById('carrinho-frete-valor');
+    if(freteGratis){
+      freteEl.textContent = 'Grátis';
+      freteEl.className = 'text-sm font-medium text-green-600';
+    } else if(freteValor > 0){
+      freteEl.textContent = brl(freteValor);
+      freteEl.className = 'text-sm font-medium text-gray-700';
+    } else {
+      freteEl.textContent = 'Calcular frete';
+      freteEl.className = 'text-sm font-medium text-gray-400';
+    }
+
+    const descRow = document.getElementById('carrinho-desconto-row');
+    if(desconto > 0){
+      descRow.classList.remove('hidden');
+      document.getElementById('carrinho-desconto-valor').textContent = '- ' + brl(desconto);
+    } else {
+      descRow.classList.add('hidden');
+    }
+
+    document.getElementById('carrinho-total').textContent = brl(total);
+  }
+
+  function carrinho_alterarQtd(id, delta){
+    const item = carrinho.find(i=>i.id===id);
+    if(!item || !item.emEstoque) return;
+    const novaQtd = item.qtd + delta;
+    if(novaQtd < 1){ carrinho_remover(id); return; }
+    if(novaQtd > item.estoque){ toast('Quantidade máxima disponível: ' + item.estoque, 'erro'); return; }
+    item.qtd = novaQtd;
+    render();
+  }
+
+  function carrinho_remover(id){
+    const item = carrinho.find(i=>i.id===id);
+    if(!item) return;
+    carrinho = carrinho.filter(i=>i.id!==id);
+    toast('"' + item.nome + '" removido do carrinho', 'info');
+    render();
+  }
+
+  function carrinho_notificar(id){
+    const item = carrinho.find(i=>i.id===id);
+    if(!item) return;
+    toast('Você será notificado quando "' + item.nome + '" estiver disponível!', 'ok');
+  }
+
+  function carrinho_abrirDetalhe(id){
+    const item = carrinho.find(i=>i.id===id);
+    if(!item) return;
+    const produtosVitrine = [
+      {id:1,nome:'Fone Bluetooth SoundX Pro',cat:'Áudio',preco:189.90,img:'#2563EB',inicial:'FX',desc:'Fone de ouvido Bluetooth 5.3 com cancelamento de ruído ativo. Bateria de 36h, resistência IPX5.',estoque:12},
+      {id:3,nome:'Carregador Turbo 65W',cat:'Acessórios',preco:129.90,img:'#1E3A5F',inicial:'CT',desc:'Carregador rápido GaN 65W com saídas USB-C e USB-A. Compatível com notebooks, tablets e celulares.',estoque:0},
+      {id:5,nome:'Suporte de Celular Magnético',cat:'Acessórios',preco:59.90,img:'#6366F1',inicial:'SC',desc:'Suporte magnético universal para carro. Fixação forte, rotação 360°, compatível com MagSafe.',estoque:8},
+      {id:7,nome:'Cabo USB-C 2m Trançado',cat:'Cabos',preco:39.90,img:'#0EA5E9',inicial:'CB',desc:'Cabo USB-C trançado em nylon de 2 metros. Transmissão 60W e 4K@60Hz. Resistente e durável.',estoque:25},
+    ];
+    const p = produtosVitrine.find(x=>x.id===id) || item;
+    const html = `
+      <div class="text-center">
+        <div class="w-32 h-32 rounded-2xl flex items-center justify-center text-white font-display font-bold text-2xl mx-auto mb-4" style="background:${p.img}">${p.inicial}</div>
+        <span class="badge badge-primary text-xs">${p.cat || 'Produto'}</span>
+        <h3 class="font-display font-bold text-lg mt-2">${p.nome}</h3>
+        <p class="text-sm text-gray-500 mt-2 leading-relaxed">${p.desc || 'Produto de alta qualidade com garantia de 12 meses.'}</p>
+        <div class="mt-4 p-3 bg-gray-50 rounded-xl">
+          <span class="text-xs text-gray-400">Preço unitário</span>
+          <p class="font-display font-bold text-xl text-marca-600">${brl(p.preco)}</p>
+          <span class="text-xs text-gray-400">${p.estoque > 0 ? p.estoque + ' em estoque' : 'Fora de estoque'}</span>
+        </div>
+        <div class="flex gap-2 mt-5">
+          <button onclick="fecharModal();carrinho_remover(${id})" class="flex-1 py-2.5 border border-red-200 text-red-600 rounded-xl text-sm font-semibold active:scale-95 transition-all">Remover do Carrinho</button>
+          <button onclick="fecharModal();mostrarTela('detalhe-do-produto')" class="flex-1 py-2.5 bg-marca-600 text-white rounded-xl text-sm font-semibold active:scale-95 transition-all">Ver na Vitrine</button>
+        </div>
+      </div>`;
+    abrirModal(html, 'Detalhe do Produto');
+  }
+
+  function carrinho_aplicarMascaraCEP(el){
+    let v = el.value.replace(/\D/g,'');
+    if(v.length > 5) v = v.slice(0,5) + '-' + v.slice(5,8);
+    el.value = v;
+  }
+
+  function carrinho_calcularFrete(){
+    const cep = document.getElementById('carrinho-cep').value.replace(/\D/g,'');
+    const info = document.getElementById('carrinho-frete-info');
+    if(cep.length < 8){ info.textContent=''; freteValor=0; freteGratis=false; carrinho_atualizarTotais(); return; }
+    info.textContent = 'Calculando frete...';
+    setTimeout(()=>{
+      const faixas = [14.90, 19.90, 9.90, 24.90, 17.90];
+      freteValor = faixas[parseInt(cep.charAt(0)) % faixas.length];
+      freteGratis = carrinho.reduce((a,b)=>a+b.preco*b.qtd,0) >= 299;
+      if(freteGratis){ info.textContent='Frete grátis para sua região!'; info.className='text-xs text-green-600 mb-2 h-4'; }
+      else { info.textContent='Entrega estimada: 3 a 7 dias úteis'; info.className='text-xs text-gray-500 mb-2 h-4'; }
+      carrinho_atualizarTotais();
+    }, 600);
+  }
+
+  function carrinho_aplicarCupom(){
+    const campo = document.getElementById('carrinho-cupom');
+    const msg = document.getElementById('carrinho-cupom-msg');
+    const val = campo.value.trim().toUpperCase();
+    if(!val){ cupomAplicado=null; msg.textContent=''; carrinho_atualizarTotais(); return; }
+    if(val === 'BLUECIRCUIT15' || val === 'PROMO15'){
+      cupomAplicado = {codigo:val, desc:0.15};
+      msg.textContent='Cupom BLUECIRCUIT15 aplicado! 15% OFF';
+      msg.className='text-xs text-green-600 mb-2 h-4';
+      toast('Cupom aplicado: 15% de desconto!','ok');
+    } else {
+      cupomAplicado = null;
+      msg.textContent='Cupom inválido. Tente BLUECIRCUIT15';
+      msg.className='text-xs text-red-500 mb-2 h-4';
+      toast('Cupom inválido','erro');
+    }
+    carrinho_atualizarTotais();
+  }
+
+  function carrinho_irParaPagamento(){
+    if(carrinho.length === 0){ toast('Seu carrinho está vazio','erro'); return; }
+    const semEstoque = carrinho.filter(i=>!i.emEstoque);
+    if(semEstoque.length > 0){
+      toast('Remova itens fora de estoque antes de continuar','erro');
+      return;
+    }
+    toast('Redirecionando para o pagamento...','ok');
+    setTimeout(()=>mostrarTela('pagamento'), 300);
+  }
+
+  window.carrinho_render = render;
+  window.carrinho_atualizarTotais = carrinho_atualizarTotais;
+  window.carrinho_alterarQtd = carrinho_alterarQtd;
+  window.carrinho_remover = carrinho_remover;
+  window.carrinho_notificar = carrinho_notificar;
+  window.carrinho_abrirDetalhe = carrinho_abrirDetalhe;
+  window.carrinho_aplicarMascaraCEP = carrinho_aplicarMascaraCEP;
+  window.carrinho_calcularFrete = carrinho_calcularFrete;
+  window.carrinho_aplicarCupom = carrinho_aplicarCupom;
+  window.carrinho_irParaPagamento = carrinho_irParaPagamento;
+
+  render();
+})();
+</script>
+
     <!-- TELAS -->
 
   </main>
