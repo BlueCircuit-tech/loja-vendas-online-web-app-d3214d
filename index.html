@@ -1767,6 +1767,554 @@
       </div>
     </section>
 
+    <section data-tela="painel-admin" class="hidden">
+      <div class="p-4 space-y-5 pb-24">
+        <!-- Cabeçalho da tela -->
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-xl font-bold text-gray-900" style="font-family: 'Plus Jakarta Sans', sans-serif;">Painel Administrativo</h1>
+            <p class="text-sm text-gray-500 mt-0.5">Visão geral do dia · Terça, 10 Jun 2025</p>
+          </div>
+          <button onclick="painel_admin_abrirNotificacoes()" class="relative p-2.5 rounded-xl bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all active:scale-95">
+            <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">3</span>
+          </button>
+        </div>
+
+        <!-- Cards KPI -->
+        <div class="grid grid-cols-2 gap-3">
+          <div class="card p-4 cursor-pointer hover:shadow-lg transition-all" onclick="painel_admin_detalheFaturamento()">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-500 font-medium">Faturamento do dia</span>
+              <div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+                <svg class="w-4 h-4" style="color: #2563EB;" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">R$ 12.450,00</p>
+            <p class="text-xs text-emerald-600 font-medium mt-1">↑ 12,5% vs ontem</p>
+          </div>
+          <div class="card p-4 cursor-pointer hover:shadow-lg transition-all" onclick="painel_admin_verPedidosPendentes()">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-500 font-medium">Pedidos pendentes</span>
+              <div class="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center">
+                <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">8</p>
+            <p class="text-xs text-amber-600 font-medium mt-1">Aguardando ação</p>
+          </div>
+          <div class="card p-4 cursor-pointer hover:shadow-lg transition-all" onclick="painel_admin_verNovosClientes()">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-500 font-medium">Novos clientes</span>
+              <div class="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center">
+                <svg class="w-4 h-4 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">23</p>
+            <p class="text-xs text-emerald-600 font-medium mt-1">↑ 8 ontem</p>
+          </div>
+          <div class="card p-4 cursor-pointer hover:shadow-lg transition-all" onclick="painel_admin_verEstoqueBaixo()">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs text-gray-500 font-medium">Estoque baixo</span>
+              <div class="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center">
+                <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-red-600">3</p>
+            <p class="text-xs text-red-500 font-medium mt-1">Abaixo do mínimo</p>
+          </div>
+        </div>
+
+        <!-- Gráfico de Vendas 7 dias -->
+        <div class="card p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-sm font-bold text-gray-900">Vendas dos últimos 7 dias</h2>
+              <p class="text-xs text-gray-500 mt-0.5">Evolução diária de faturamento</p>
+            </div>
+            <div class="flex gap-1 bg-gray-100 rounded-lg p-0.5">
+              <button class="text-[10px] px-2.5 py-1 rounded-md font-medium bg-white shadow-sm text-gray-900">7d</button>
+              <button class="text-[10px] px-2.5 py-1 rounded-md font-medium text-gray-500 hover:text-gray-700 transition-colors" onclick="painel_admin_alterarPeriodo(this, '30d')">30d</button>
+              <button class="text-[10px] px-2.5 py-1 rounded-md font-medium text-gray-500 hover:text-gray-700 transition-colors" onclick="painel_admin_alterarPeriodo(this, '90d')">90d</button>
+            </div>
+          </div>
+          <svg id="grafico-vendas" viewBox="0 0 340 160" class="w-full h-40">
+            <defs>
+              <linearGradient id="gradArea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" style="stop-color:#2563EB;stop-opacity:0.15"/>
+                <stop offset="100%" style="stop-color:#2563EB;stop-opacity:0"/>
+              </linearGradient>
+            </defs>
+            <!-- Grid lines -->
+            <line x1="30" y1="20" x2="330" y2="20" stroke="#E5E7EB" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <line x1="30" y1="52" x2="330" y2="52" stroke="#E5E7EB" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <line x1="30" y1="84" x2="330" y2="84" stroke="#E5E7EB" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <line x1="30" y1="116" x2="330" y2="116" stroke="#E5E7EB" stroke-width="0.5" stroke-dasharray="3,3"/>
+            <!-- Y-axis labels -->
+            <text x="25" y="24" text-anchor="end" class="text-[9px] fill-gray-400">15k</text>
+            <text x="25" y="56" text-anchor="end" class="text-[9px] fill-gray-400">11k</text>
+            <text x="25" y="88" text-anchor="end" class="text-[9px] fill-gray-400">7k</text>
+            <text x="25" y="120" text-anchor="end" class="text-[9px] fill-gray-400">3k</text>
+            <!-- Area fill -->
+            <path d="M42,110 L98,95 L154,102 L210,72 L266,60 L322,35 L322,130 L42,130 Z" fill="url(#gradArea)"/>
+            <!-- Line -->
+            <path d="M42,110 L98,95 L154,102 L210,72 L266,60 L322,35" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <!-- Dots -->
+            <circle cx="42" cy="110" r="3.5" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+            <circle cx="98" cy="95" r="3.5" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+            <circle cx="154" cy="102" r="3.5" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+            <circle cx="210" cy="72" r="3.5" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+            <circle cx="266" cy="60" r="3.5" fill="#2563EB" stroke="white" stroke-width="1.5"/>
+            <circle cx="322" cy="35" r="5" fill="#2563EB" stroke="white" stroke-width="2.5"/>
+            <!-- X-axis labels -->
+            <text x="42" y="148" text-anchor="middle" class="text-[9px] fill-gray-500">Seg</text>
+            <text x="98" y="148" text-anchor="middle" class="text-[9px] fill-gray-500">Ter</text>
+            <text x="154" y="148" text-anchor="middle" class="text-[9px] fill-gray-500">Qua</text>
+            <text x="210" y="148" text-anchor="middle" class="text-[9px] fill-gray-500">Qui</text>
+            <text x="266" y="148" text-anchor="middle" class="text-[9px] fill-gray-500">Sex</text>
+            <text x="322" y="148" text-anchor="middle" class="text-[9px] fill-gray-500 font-semibold">Sáb</text>
+          </svg>
+        </div>
+
+        <!-- Pedidos Recentes -->
+        <div class="card overflow-hidden">
+          <div class="p-4 pb-3 flex items-center justify-between">
+            <div>
+              <h2 class="text-sm font-bold text-gray-900">Pedidos recentes</h2>
+              <p class="text-xs text-gray-500 mt-0.5">Toque para ver detalhes</p>
+            </div>
+            <div class="relative">
+              <input type="text" id="busca-pedidos" placeholder="Buscar pedido..." oninput="painel_admin_buscarPedidos(this.value)" class="text-xs pl-8 pr-3 py-1.5 rounded-lg border border-gray-200 bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-400 w-36 placeholder-gray-400">
+              <svg class="w-3.5 h-3.5 text-gray-400 absolute left-2.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            </div>
+          </div>
+          <div id="lista-pedidos" class="divide-y divide-gray-100">
+          </div>
+          <div id="estado-vazio-pedidos" class="hidden p-8 text-center">
+            <svg class="w-10 h-10 text-gray-300 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+            <p class="text-sm text-gray-500">Nenhum pedido encontrado</p>
+          </div>
+        </div>
+
+        <!-- Produtos Mais Vendidos + Mapa de Calor -->
+        <div class="grid grid-cols-1 gap-4">
+          <div class="card p-5">
+            <h2 class="text-sm font-bold text-gray-900 mb-1">Produtos mais vendidos</h2>
+            <p class="text-xs text-gray-500 mb-4">Top 5 do mês · junho 2025</p>
+            <svg viewBox="0 0 340 180" class="w-full h-44">
+              <defs>
+                <linearGradient id="barGrad" x1="0" y1="1" x2="0" y2="0">
+                  <stop offset="0%" style="stop-color:#2563EB;stop-opacity:0.6"/>
+                  <stop offset="100%" style="stop-color:#2563EB;stop-opacity:1"/>
+                </linearGradient>
+              </defs>
+              <!-- Grid -->
+              <line x1="50" y1="20" x2="330" y2="20" stroke="#F3F4F6" stroke-width="1"/>
+              <line x1="50" y1="60" x2="330" y2="60" stroke="#F3F4F6" stroke-width="1"/>
+              <line x1="50" y1="100" x2="330" y2="100" stroke="#F3F4F6" stroke-width="1"/>
+              <line x1="50" y1="140" x2="330" y2="140" stroke="#F3F4F6" stroke-width="1"/>
+              <!-- Barras -->
+              <rect x="55" y="45" width="42" height="115" rx="4" fill="url(#barGrad)"/>
+              <rect x="115" y="65" width="42" height="95" rx="4" fill="url(#barGrad)" opacity="0.85"/>
+              <rect x="175" y="85" width="42" height="75" rx="4" fill="url(#barGrad)" opacity="0.7"/>
+              <rect x="235" y="100" width="42" height="60" rx="4" fill="url(#barGrad)" opacity="0.55"/>
+              <rect x="295" y="115" width="42" height="45" rx="4" fill="url(#barGrad)" opacity="0.4"/>
+              <!-- Labels -->
+              <text x="76" y="170" text-anchor="middle" class="text-[8px] fill-gray-500">Camiseta</text>
+              <text x="136" y="170" text-anchor="middle" class="text-[8px] fill-gray-500">Tênis</text>
+              <text x="196" y="170" text-anchor="middle" class="text-[8px] fill-gray-500">Calça</text>
+              <text x="256" y="170" text-anchor="middle" class="text-[8px] fill-gray-500">Boné</text>
+              <text x="316" y="170" text-anchor="middle" class="text-[8px] fill-gray-500">Mochila</text>
+              <!-- Valores -->
+              <text x="76" y="38" text-anchor="middle" class="text-[9px] font-bold fill-gray-700">247</text>
+              <text x="136" y="58" text-anchor="middle" class="text-[9px] font-bold fill-gray-700">189</text>
+              <text x="196" y="78" text-anchor="middle" class="text-[9px] font-bold fill-gray-700">156</text>
+              <text x="256" y="93" text-anchor="middle" class="text-[9px] font-bold fill-gray-700">98</text>
+              <text x="316" y="108" text-anchor="middle" class="text-[9px] font-bold fill-gray-700">72</text>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Acesso Rápido -->
+        <div class="card p-5">
+          <h2 class="text-sm font-bold text-gray-900 mb-3">Acesso rápido</h2>
+          <div class="grid grid-cols-4 gap-2">
+            <button onclick="mostrarTela('vitrine')" class="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-blue-50 hover:bg-blue-100 transition-all active:scale-95">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background: #2563EB;">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+              </div>
+              <span class="text-[10px] font-medium text-gray-600">Produtos</span>
+            </button>
+            <button onclick="painel_admin_verClientes()" class="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 transition-all active:scale-95">
+              <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+              </div>
+              <span class="text-[10px] font-medium text-gray-600">Clientes</span>
+            </button>
+            <button onclick="painel_admin_verWhatsApp()" class="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-green-50 hover:bg-green-100 transition-all active:scale-95">
+              <div class="w-10 h-10 rounded-xl bg-green-500 flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.511-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              </div>
+              <span class="text-[10px] font-medium text-gray-600">WhatsApp</span>
+            </button>
+            <button onclick="painel_admin_verRelatorios()" class="flex flex-col items-center gap-1.5 p-3 rounded-xl bg-purple-50 hover:bg-purple-100 transition-all active:scale-95">
+              <div class="w-10 h-10 rounded-xl bg-purple-600 flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+              </div>
+              <span class="text-[10px] font-medium text-gray-600">Relatórios</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mapa de Calor de Acessos -->
+        <div class="card p-5">
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h2 class="text-sm font-bold text-gray-900">Acessos por dia da semana</h2>
+              <p class="text-xs text-gray-500 mt-0.5">Heatmap de visitas na loja · últimas 4 semanas</p>
+            </div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-medium text-gray-500 w-6 text-right">Seg</span>
+              <div class="flex gap-0.5 flex-1">
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.25;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.25;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.4;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.35;"></div>
+              </div>
+              <span class="text-[9px] text-gray-400 w-8">142</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-medium text-gray-500 w-6 text-right">Ter</span>
+              <div class="flex gap-0.5 flex-1">
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.35;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.3;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.45;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.4;"></div>
+              </div>
+              <span class="text-[9px] text-gray-400 w-8">168</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-medium text-gray-500 w-6 text-right">Qua</span>
+              <div class="flex gap-0.5 flex-1">
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.3;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.35;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.55;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.5;"></div>
+              </div>
+              <span class="text-[9px] text-gray-400 w-8">195</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-medium text-gray-500 w-6 text-right">Qui</span>
+              <div class="flex gap-0.5 flex-1">
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.5;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.55;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.7;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.65;"></div>
+              </div>
+              <span class="text-[9px] text-gray-400 w-8">231</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-medium text-gray-500 w-6 text-right">Sex</span>
+              <div class="flex gap-0.5 flex-1">
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.65;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.7;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.85;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.9;"></div>
+              </div>
+              <span class="text-[9px] text-gray-400 w-8">289</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-medium text-gray-500 w-6 text-right">Sáb</span>
+              <div class="flex gap-0.5 flex-1">
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.9;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 1;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 1;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.95;"></div>
+              </div>
+              <span class="text-[9px] text-gray-400 w-8">342</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="text-[10px] font-medium text-gray-500 w-6 text-right">Dom</span>
+              <div class="flex gap-0.5 flex-1">
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.5;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.55;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.6;"></div>
+                <div class="h-5 rounded-sm flex-1" style="background: #2563EB; opacity: 0.55;"></div>
+              </div>
+              <span class="text-[9px] text-gray-400 w-8">198</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 mt-3 justify-end">
+            <span class="text-[9px] text-gray-400">Menos</span>
+            <div class="h-3 rounded-sm w-3" style="background: #2563EB; opacity: 0.15;"></div>
+            <div class="h-3 rounded-sm w-3" style="background: #2563EB; opacity: 0.35;"></div>
+            <div class="h-3 rounded-sm w-3" style="background: #2563EB; opacity: 0.55;"></div>
+            <div class="h-3 rounded-sm w-3" style="background: #2563EB; opacity: 0.75;"></div>
+            <div class="h-3 rounded-sm w-3" style="background: #2563EB; opacity: 0.95;"></div>
+            <span class="text-[9px] text-gray-400">Mais</span>
+          </div>
+        </div>
+
+        <!-- Alertas de Estoque -->
+        <div class="card p-5 border-l-4 border-red-400">
+          <div class="flex items-center gap-2 mb-3">
+            <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <h2 class="text-sm font-bold text-red-700">Alertas de estoque baixo</h2>
+          </div>
+          <div class="space-y-2.5">
+            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-red-50 cursor-pointer hover:bg-red-100 transition-all" onclick="painel_admin_detalheProdutoEstoque('Camiseta Algodão Premium')">
+              <div class="w-9 h-9 rounded-lg bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-500">CA</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-gray-900 truncate">Camiseta Algodão Premium</p>
+                <p class="text-[10px] text-red-600">Apenas 3 unidades · mínimo: 10</p>
+              </div>
+              <span class="badge bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-semibold whitespace-nowrap">Crítico</span>
+            </div>
+            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-red-50 cursor-pointer hover:bg-red-100 transition-all" onclick="painel_admin_detalheProdutoEstoque('Tênis Running Pro')">
+              <div class="w-9 h-9 rounded-lg bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-500">TR</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-gray-900 truncate">Tênis Running Pro</p>
+                <p class="text-[10px] text-red-600">Apenas 5 unidades · mínimo: 15</p>
+              </div>
+              <span class="badge bg-red-100 text-red-700 text-[10px] px-2 py-0.5 rounded-full font-semibold whitespace-nowrap">Crítico</span>
+            </div>
+            <div class="flex items-center gap-3 p-2.5 rounded-lg bg-amber-50 cursor-pointer hover:bg-amber-100 transition-all" onclick="painel_admin_detalheProdutoEstoque('Calça Jeans Slim')">
+              <div class="w-9 h-9 rounded-lg bg-gray-200 flex items-center justify-center text-xs font-bold text-gray-500">CJ</div>
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-semibold text-gray-900 truncate">Calça Jeans Slim</p>
+                <p class="text-[10px] text-amber-600">7 unidades · mínimo: 10</p>
+              </div>
+              <span class="badge bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-semibold whitespace-nowrap">Atenção</span>
+            </div>
+          </div>
+          <button onclick="mostrarTela('vitrine')" class="w-full mt-3 text-xs font-medium text-center py-2 rounded-lg border border-dashed border-gray-300 text-gray-500 hover:border-blue-400 hover:text-blue-600 transition-all active:scale-95">
+            Ver todos os produtos →
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal de Detalhe do Pedido -->
+      <div id="modal-pedido-admin" class="hidden fixed inset-0 z-50">
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" onclick="fecharModal()"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-2xl p-5 max-h-[85vh] overflow-y-auto transform transition-transform duration-300 translate-y-full" id="modal-pedido-admin-content">
+          <div class="w-10 h-1 bg-gray-300 rounded-full mx-auto mb-4"></div>
+          <div id="modal-pedido-admin-body"></div>
+        </div>
+      </div>
+
+      <script>
+      const pedidos = [
+        { id: '#8201', cliente: 'Marina Costa', valor: 289.90, pagamento: 'Pix', status: 'pendente', data: '10/06/2025', hora: '14:32', itens: 3, endereco: 'Rua das Palmeiras, 145, Jardim América' },
+        { id: '#8200', cliente: 'Pedro Henrique Lima', valor: 159.90, pagamento: 'Cartão Crédito', status: 'confirmado', data: '10/06/2025', hora: '13:15', itens: 1, endereco: 'Av. Brasil, 890, Centro' },
+        { id: '#8199', cliente: 'Ana Beatriz Souza', valor: 520.00, pagamento: 'Cartão Débito', status: 'enviado', data: '10/06/2025', hora: '11:45', itens: 4, endereco: 'Rua Flores, 23, Vila Nova' },
+        { id: '#8198', cliente: 'Carlos Eduardo Rocha', valor: 89.90, pagamento: 'Pix', status: 'entregue', data: '09/06/2025', hora: '18:20', itens: 1, endereco: 'Rua Amazonas, 567, Bela Vista' },
+        { id: '#8197', cliente: 'Juliana Ferreira', valor: 445.50, pagamento: 'Cartão Crédito', status: 'entregue', data: '09/06/2025', hora: '16:05', itens: 2, endereco: 'Av. Paulista, 1200, apto 42' },
+        { id: '#8196', cliente: 'Rafael Almeida', valor: 320.00, pagamento: 'Pix', status: 'cancelado', data: '09/06/2025', hora: '10:30', itens: 2, endereco: 'Rua Minas Gerais, 78, Jardim Europa' },
+        { id: '#8195', cliente: 'Fernanda Oliveira', valor: 670.00, pagamento: 'Cartão Crédito', status: 'confirmado', data: '09/06/2025', hora: '09:15', itens: 5, endereco: 'Rua Bahia, 340, Santa Teresa' },
+        { id: '#8194', cliente: 'Lucas Mendes', valor: 195.00, pagamento: 'Pix', status: 'entregue', data: '08/06/2025', hora: '17:45', itens: 2, endereco: 'Av. Rio Branco, 210, Lapa' },
+      ];
+
+      const statusConfig = {
+        pendente: { label: 'Pendente', bg: 'bg-amber-100', text: 'text-amber-700', dot: 'bg-amber-400' },
+        confirmado: { label: 'Confirmado', bg: 'bg-blue-100', text: 'text-blue-700', dot: 'bg-blue-400' },
+        enviado: { label: 'Enviado', bg: 'bg-purple-100', text: 'text-purple-700', dot: 'bg-purple-400' },
+        entregue: { label: 'Entregue', bg: 'bg-emerald-100', text: 'text-emerald-700', dot: 'bg-emple-400' },
+        cancelado: { label: 'Cancelado', bg: 'bg-red-100', text: 'text-red-700', dot: 'bg-red-400' }
+      };
+
+      const pagamentoIcon = {
+        'Pix': '<svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/></svg>',
+        'Cartão Crédito': '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>',
+        'Cartão Débito': '<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>'
+      };
+
+      function painel_admin_renderPedidos(lista) {
+        const container = document.getElementById('lista-pedidos');
+        const vazio = document.getElementById('estado-vazio-pedidos');
+        if (lista.length === 0) {
+          container.innerHTML = '';
+          vazio.classList.remove('hidden');
+          return;
+        }
+        vazio.classList.add('hidden');
+        container.innerHTML = lista.map(p => {
+          const st = statusConfig[p.status] || statusConfig.pendente;
+          const iniciais = p.cliente.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+          const corAvatar = ['#2563EB', '#059669', '#D97706', '#7C3AED', '#DC2626', '#0891B2'][Math.floor(Math.random() * 6)];
+          return `<div class="flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors cursor-pointer active:bg-gray-100" onclick="painel_admin_detalhePedido('${p.id}')">
+            <div class="w-9 h-9 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0" style="background: ${corAvatar};">${iniciais}</div>
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold text-gray-900">${p.cliente}</span>
+                <span class="text-[10px] text-gray-400">${p.id}</span>
+              </div>
+              <div class="flex items-center gap-2 mt-0.5">
+                <span class="text-xs text-gray-500">R$ ${p.valor.toFixed(2).replace('.', ',')}</span>
+                <span class="text-[10px] text-gray-400">·</span>
+                <span class="text-[10px] text-gray-400 flex items-center gap-0.5">${pagamentoIcon[p.pagamento] || ''} ${p.pagamento}</span>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+              <span class="badge ${st.bg} ${st.text} text-[10px] px-2 py-0.5 rounded-full font-semibold">${st.label}</span>
+              <svg class="w-4 h-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </div>
+          </div>`;
+        }).join('');
+      }
+
+      function painel_admin_buscarPedidos(query) {
+        const q = query.toLowerCase().trim();
+        if (!q) { painel_admin_renderPedidos(pedidos); return; }
+        const filtrados = pedidos.filter(p =>
+          p.cliente.toLowerCase().includes(q) ||
+          p.id.toLowerCase().includes(q) ||
+          p.pagamento.toLowerCase().includes(q) ||
+          p.status.toLowerCase().includes(q)
+        );
+        painel_admin_renderPedidos(filtrados);
+      }
+
+      function painel_admin_detalhePedido(id) {
+        const p = pedidos.find(x => x.id === id);
+        if (!p) return;
+        const st = statusConfig[p.status];
+        const html = `
+          <div class="space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <h3 class="text-lg font-bold text-gray-900">Pedido ${p.id}</h3>
+                <p class="text-xs text-gray-500">${p.data} às ${p.hora} · ${p.itens} ${p.itens === 1 ? 'item' : 'itens'}</p>
+              </div>
+              <span class="badge ${st.bg} ${st.text} text-xs px-3 py-1 rounded-full font-bold">${st.label}</span>
+            </div>
+            <div class="bg-gray-50 rounded-xl p-4 space-y-3">
+              <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center text-white text-sm font-bold" style="background: #2563EB;">${p.cliente.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase()}</div>
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">${p.cliente}</p>
+                  <p class="text-[11px] text-gray-500">Cliente</p>
+                </div>
+              </div>
+              <div class="border-t border-gray-200 pt-3 space-y-2">
+                <div class="flex justify-between text-xs"><span class="text-gray-500">Endereço</span><span class="text-gray-900 font-medium text-right max-w-[60%]">${p.endereco}</span></div>
+                <div class="flex justify-between text-xs"><span class="text-gray-500">Pagamento</span><span class="text-gray-900 font-medium">${p.pagamento}</span></div>
+                <div class="flex justify-between text-xs"><span class="text-gray-500">Itens</span><span class="text-gray-900 font-medium">${p.itens}</span></div>
+              </div>
+            </div>
+            <div class="flex items-center justify-between p-4 rounded-xl bg-gray-50">
+              <span class="text-sm font-medium text-gray-600">Valor total</span>
+              <span class="text-xl font-bold text-gray-900">R$ ${p.valor.toFixed(2).replace('.', ',')}</span>
+            </div>
+            <div class="flex gap-2">
+              ${p.status === 'pendente' ? `<button onclick="painel_admin_acaoPedido('${p.id}', 'confirmado')" class="btn flex-1 py-3 text-sm font-semibold rounded-xl text-white active:scale-95" style="background: #2563EB;">Confirmar Pedido</button>` : ''}
+              ${p.status === 'confirmado' ? `<button onclick="painel_admin_acaoPedido('${p.id}', 'enviado')" class="btn flex-1 py-3 text-sm font-semibold rounded-xl text-white active:scale-95" style="background: #7C3AED;">Marcar Enviado</button>` : ''}
+              ${p.status === 'enviado' ? `<button onclick="painel_admin_acaoPedido('${p.id}', 'entregue')" class="btn flex-1 py-3 text-sm font-semibold rounded-xl text-white active:scale-95" style="background: #059669;">Confirmar Entrega</button>` : ''}
+              ${p.status !== 'cancelado' && p.status !== 'entregue' ? `<button onclick="painel_admin_acaoPedido('${p.id}', 'cancelado')" class="btn py-3 px-4 text-sm font-semibold rounded-xl border border-red-200 text-red-600 hover:bg-red-50 active:scale-95">Cancelar</button>` : ''}
+            </div>
+          </div>`;
+        abrirModal(html, 'Detalhes do Pedido');
+      }
+
+      function painel_admin_acaoPedido(id, novoStatus) {
+        const p = pedidos.find(x => x.id === id);
+        if (!p) return;
+        p.status = novoStatus;
+        fecharModal();
+        painel_admin_renderPedidos(pedidos);
+        const labels = { confirmado: 'Pedido confirmado', enviado: 'Pedido marcado como enviado', entregue: 'Pedido entregue', cancelado: 'Pedido cancelado' };
+        const tipos = { confirmado: 'ok', enviado: 'info', entregue: 'ok', cancelado: 'erro' };
+        toast(labels[novoStatus] || 'Status atualizado', tipos[novoStatus] || 'ok');
+      }
+
+      function painel_admin_detalheProdutoEstoque(nome) {
+        const html = `<div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-14 h-14 rounded-xl bg-gray-200 flex items-center justify-center text-lg font-bold text-gray-500">${nome.split(' ').map(w => w[0]).join('').substring(0, 2).toUpperCase()}</div>
+            <div>
+              <h3 class="text-base font-bold text-gray-900">${nome}</h3>
+              <p class="text-xs text-gray-500">Código: PRD-${Math.floor(Math.random() * 9000 + 1000)}</p>
+            </div>
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Preço de venda</span><span class="font-semibold text-gray-900">R$ ${(Math.random() * 200 + 30).toFixed(2).replace('.', ',')}</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Estoque atual</span><span class="font-semibold text-red-600">${Math.floor(Math.random() * 8 + 1)} unid.</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Estoque mínimo</span><span class="font-semibold text-gray-900">10 unid.</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Categoria</span><span class="font-semibold text-gray-900">Vestuário</span></div>
+          </div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
+            <p class="text-xs text-amber-700 font-medium">⚠️ Estoque abaixo do mínimo. Considere repor em breve.</p>
+          </div>
+          <button onclick="fecharModal(); mostrarTela('vitrine');" class="btn w-full py-3 text-sm font-semibold rounded-xl text-white" style="background: #2563EB;">Ir para Vitrine</button>
+        </div>`;
+        abrirModal(html, nome);
+      }
+
+      function painel_admin_verPedidosPendentes() {
+        const pendentes = pedidos.filter(p => p.status === 'pendente');
+        if (pendentes.length > 0) {
+          painel_admin_buscarPedidos('pendente');
+          toast(`${pendentes.length} pedido(s) pendente(s)`, 'info');
+        } else {
+          toast('Nenhum pedido pendente no momento', 'ok');
+        }
+      }
+
+      function painel_admin_verNovosClientes() {
+        toast('23 novos clientes cadastrados esta semana', 'info');
+      }
+
+      function painel_admin_verEstoqueBaixo() {
+        toast('3 produtos com estoque abaixo do mínimo', 'erro');
+      }
+
+      function painel_admin_detalheFaturamento() {
+        const html = `<div class="space-y-4">
+          <div class="text-center p-4 rounded-xl" style="background: #1E3A5F;">
+            <p class="text-sm text-blue-200">Faturamento do dia</p>
+            <p class="text-3xl font-bold text-white mt-1">R$ 12.450,00</p>
+            <p class="text-xs text-blue-300 mt-1">↑ 12,5% comparado a ontem</p>
+          </div>
+          <div class="space-y-2">
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Pedidos confirmados</span><span class="font-semibold text-gray-900">24</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Ticket médio</span><span class="font-semibold text-gray-900">R$ 519,58</span></div>
+            <div class="flex justify-between text-sm"><span class="text-gray-500">Forma mais usada</span><span class="font-semibold text-gray-900">Pix (58%)</span></div>
+          </div>
+          <button onclick="fecharModal(); mostrarTela('vitrine');" class="btn w-full py-3 text-sm font-semibold rounded-xl text-white" style="background: #2563EB;">Ver na Vitrine</button>
+        </div>`;
+        abrirModal(html, 'Detalhes de Faturamento');
+      }
+
+      function painel_admin_verClientes() {
+        toast('Abrindo lista de clientes...', 'info');
+      }
+
+      function painel_admin_verWhatsApp() {
+        toast('Redirecionando para WhatsApp Business...', 'info');
+      }
+
+      function painel_admin_verRelatorios() {
+        toast('Gerando relatórios...', 'info');
+      }
+
+      function painel_admin_abrirNotificacoes() {
+        mostrarTela('notificacoes');
+      }
+
+      function painel_admin_alterarPeriodo(btn, periodo) {
+        btn.parentElement.querySelectorAll('button').forEach(b => { b.className = 'text-[10px] px-2.5 py-1 rounded-md font-medium text-gray-500 hover:text-gray-700 transition-colors'; });
+        btn.className = 'text-[10px] px-2.5 py-1 rounded-md font-medium bg-white shadow-sm text-gray-900';
+        toast(`Período alterado para ${periodo}`, 'info');
+      }
+
+      // Init
+      document.addEventListener('DOMContentLoaded', () => {
+        painel_admin_renderPedidos(pedidos);
+      });
+      </script>
+    </section>
+
     <!-- TELAS -->
 
   </main>
