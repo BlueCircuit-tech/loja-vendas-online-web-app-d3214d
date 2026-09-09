@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MeuBazar</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            marca: {
+              50: '#f0f5ff', 100: '#e0ecff', 200: '#bcd9ff', 300: '#8abfff',
+              400: '#5ba1ff', 500: '#2563EB', 600: '#1d56d0', 700: '#1E3A5F',
+              800: '#162d4a', 900: '#0f1f33',
+            }
+          },
+          fontFamily: {
+            display: ['"Poppins"', 'system-ui', 'sans-serif'],
+            body: ['"Sora"', 'system-ui', 'sans-serif'],
+          },
+          boxShadow: {
+            'card': '0 1px 3px rgba(30,58,95,0.06), 0 6px 16px rgba(30,58,95,0.04)',
+            'card-hover': '0 4px 12px rgba(30,58,95,0.1), 0 12px 28px rgba(30,58,95,0.06)',
+            'elevated': '0 2px 8px rgba(30,58,95,0.1), 0 16px 40px rgba(30,58,95,0.08)',
+            'nav': '0 -2px 20px rgba(30,58,95,0.07)',
+          },
+          borderRadius: {
+            'card': '16px',
+            'btn': '12px',
+            'input': '12px',
+            'badge': '20px',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Sora', system-ui, sans-serif;
+      background: linear-gradient(135deg, #e8eef6 0%, #f0f4fa 50%, #e3eaf4 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+    }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(30,58,95,0.12); border-radius: 4px; }
+
+    #app-frame {
+      width: 100%;
+      max-width: 430px;
+      height: 100vh;
+      max-height: 100vh;
+      background: #F8FAFC;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (min-width: 480px) {
+      body { padding: 16px 0; align-items: flex-start; }
+      #app-frame {
+        height: calc(100vh - 32px);
+        max-height: 880px;
+        border-radius: 44px;
+        border: 6px solid #0f1f33;
+        box-shadow: 0 25px 60px rgba(15,31,51,0.25), 0 0 0 1px rgba(255,255,255,0.1) inset;
+      }
+    }
+
+    .app-main {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 84px;
+    }
+
+    @keyframes telaEntrada {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    [data-tela]:not(.hidden) { animation: telaEntrada 0.3s ease-out forwards; }
+
+    .ativo { color: #2563EB !important; }
+    .ativo svg { stroke: #2563EB !important; fill: #2563EB !important; }
+    .ativo::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 25%; right: 25%;
+      height: 2.5px;
+      background: #2563EB;
+      border-radius: 0 0 4px 4px;
+    }
+
+    :focus-visible {
+      outline: 2px solid #2563EB;
+      outline-offset: 2px;
+      border-radius: 6px;
+    }
+
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 14px 24px; font-weight: 600; font-size: 0.9rem; border: none;
+      border-radius: 12px; cursor: pointer; transition: all 0.2s ease;
+      font-family: 'Sora', sans-serif; line-height: 1.2;
+    }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: #2563EB; color: #fff; }
+    .btn-primary:hover { background: #1d56d0; box-shadow: 0 4px 14px rgba(37,99,235,0.35); }
+    .btn-outline { background: transparent; color: #2563EB; border: 1.5px solid #2563EB; }
+    .btn-outline:hover { background: rgba(37,99,235,0.06); }
+    .btn-ghost { background: transparent; color: #1E3A5F; }
+    .btn-ghost:hover { background: rgba(30,58,95,0.05); }
+    .btn-sm { padding: 10px 16px; font-size: 0.8rem; }
+    .btn-lg { padding: 16px 28px; font-size: 1rem; border-radius: 14px; }
+    .btn-block { width: 100%; }
+    .btn-danger { background: #DC2626; color: #fff; }
+    .btn-danger:hover { background: #b91c1c; }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 1px 3px rgba(30,58,95,0.06), 0 6px 16px rgba(30,58,95,0.04);
+      transition: box-shadow 0.2s ease, transform 0.2s ease;
+    }
+    .card-interactive:hover { box-shadow: 0 4px 12px rgba(30,58,95,0.1), 0 12px 28px rgba(30,58,95,0.06); transform: translateY(-1px); }
+    .card-interactive:active { transform: scale(0.985); }
+
+    .badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 4px 12px; font-size: 0.7rem; font-weight: 600; border-radius: 20px;
+      font-family: 'Sora', sans-serif; white-space: nowrap;
+    }
+    .badge-primary { background: #dbeafe; color: #1d4ed8; }
+    .badge-success { background: #d1fae5; color: #065f46; }
+    .badge-warning { background: #fef3c7; color: #92400e; }
+    .badge-danger  { background: #fee2e2; color: #991b1b; }
+    .badge-neutral { background: #f1f5f9; color: #475569; }
+
+    #toast-container {
+      position: fixed; top: 60px; left: 50%; transform: translateX(-50%);
+      z-index: 9999; display: flex; flex-direction: column; gap: 8px;
+      pointer-events: none; max-width: 390px; width: calc(100% - 32px);
+    }
+    .toast-item {
+      padding: 14px 18px; border-radius: 14px;
+      color: #fff; font-family: 'Sora', sans-serif; font-size: 0.85rem; font-weight: 500;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+      animation: toastIn 0.35s ease-out forwards;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .toast-item.sair { animation: toastOut 0.3s ease-in forwards; }
+    .toast-ok    { background: #059669; }
+    .toast-erro  { background: #DC2626; }
+    .toast-info  { background: #2563EB; }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(-16px) scale(0.95); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to   { opacity: 0; transform: translateY(-12px) scale(0.95); }
+    }
+
+    #modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15,31,51,0.55);
+      backdrop-filter: blur(3px);
+      z-index: 8000; display: none;
+      align-items: flex-end; justify-content: center;
+    }
+    @media (min-width: 480px) {
+      #modal-overlay { align-items: center; }
+    }
+    #modal-overlay.aberto { display: flex; }
+    #modal-card {
+      background: #fff; width: 100%; max-width: 430px; max-height: 75vh;
+      border-radius: 24px 24px 0 0;
+      display: flex; flex-direction: column;
+      animation: modalSobe 0.3s ease-out forwards;
+    }
+    @media (min-width: 480px) {
+      #modal-card { border-radius: 20px; max-height: 80vh; max-width: 380px; }
+    }
+    @keyframes modalSobe {
+      from { transform: translateY(100%); }
+      to   { transform: translateY(0); }
+    }
+
+    .input-campo {
+      width: 100%; padding: 13px 16px; border: 1.5px solid #e2e8f0;
+      border-radius: 12px; font-family: 'Sora', sans-serif; font-size: 0.9rem;
+      background: #F8FAFC; transition: all 0.2s; color: #1E3A5F;
+    }
+    .input-campo:focus { outline: none; border-color: #2563EB; background: #fff; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+    .input-campo::placeholder { color: #94a3b8; }
+
+    .skeleton {
+      background: linear-gradient(90deg, #e2e8f0 25%, #edf2f7 50%, #e2e8f0 75%);
+      background-size: 200% 100%; border-radius: 8px;
+      animation: skele 1.5s ease infinite;
+    }
+    @keyframes skele { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  </style>
+</head>
+<body>
+
+<!-- ==================== APP FRAME ==================== -->
+<div id="app-frame">
+
+  <!-- Status Bar (desktop frame only) -->
+  <div id="status-bar" class="hidden md:flex items-center justify-between px-7 py-2 bg-marca-900 text-white select-none" style="font-family:'Sora',sans-serif; font-size:0.75rem; font-weight:600;">
+    <span id="status-hora"></span>
+    <div class="flex items-center gap-1.5">
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><rect x="0" y="5" width="3" height="7" rx="0.5"/><rect x="4.5" y="3.5" width="3" height="8.5" rx="0.5"/><rect x="9" y="1.5" width="3" height="10.5" rx="0.5"/><rect x="13.5" y="0" width="3" height="12" rx="0.5" opacity="0.3"/></svg>
+      <svg width="14" height="12" viewBox="0 0 14 12" fill="currentColor"><rect x="0" y="4" width="10" height="8" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="11" y="6" width="3" height="4" rx="0.5"/><rect x="1" y="5" width="8" height="5" rx="0.8"/></svg>
+      <svg width="24" height="12" viewBox="0 0 24 12" fill="currentColor"><rect x="0" y="1" width="21" height="10" rx="2.5" fill="none" stroke="currentColor" stroke-width="1.2"/><rect x="22" y="4" width="2" height="4" rx="0.5"/><rect x="0.5" y="1.5" width="15" height="8" rx="1.5"/></svg>
+    </div>
+  </div>
+
+  <!-- ===== ÁREA PRINCIPAL ===== -->
+  <main id="main-content" class="app-main">
+
+    <!-- ==================== TELAS ==================== -->
+    <!-- TELAS -->
+
+  </main>
+
+  <!-- ===== NAVEGAÇÃO INFERIOR ===== -->
+  <nav id="bottom-nav" class="bg-white border-t border-slate-100 shrink-0 relative z-50" style="box-shadow:0 -2px 20px rgba(30,58,95,0.07);">
+    <div class="flex items-center justify-around py-1.5 px-1 max-w-[430px] mx-auto">
+
+      <button data-nav="vitrine" onclick="mostrarTela('vitrine')" class="ativo flex flex-col items-center gap-0.5 py-1.5 px-2 rounded-xl transition-all duration-200 relative min-w-[52px]" style="color:#94a3b8;" aria-label="Vitrine">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span style="font-family:'Sora',sans-serif;font-size:0.6rem;font-weight:600;">Vitrine</span>
+      </button>
+
+      <button data-nav="detalhe-do-produto" onclick="mostrarTela('detalhe-do-produto')" class="flex flex-col items-center gap-0.5 py-1.5 px-2 rounded-xl transition-all duration-200 relative min-w-[52px]" style="color:#94a3b8;" aria-label="Detalhes">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span style="font-family:'Sora',sans-serif;font-size:0.6rem;font-weight:600;">Detalhes</span>
+      </button>
+
+      <button data-nav="carrinho" onclick="mostrarTela('carrinho')" class="flex flex-col items-center gap-0.5 py-1.5 px-2 rounded-xl transition-all duration-200 relative min-w-[52px]" style="color:#94a3b8;" aria-label="Carrinho">
+        <div class="relative">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+          <span id="cart-badge" class="hidden absolute -top-1.5 -right-2 w-4 h-4 bg-red-500 text-white text-[0.55rem] font-bold rounded-full flex items-center justify-center" style="font-family:'Sora',sans-serif;">0</span>
+        </div>
+        <span style="font-family:'Sora',sans-serif;font-size:0.6rem;font-weight:600;">Carrinho</span>
+      </button>
+
+      <button data-nav="pagamento" onclick="mostrarTela('pagamento')" class="flex flex-col items-center gap-0.5 py-1.5 px-2 rounded-xl transition-all duration-200 relative min-w-[52px]" style="color:#94a3b8;" aria-label="Pagamento">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+        <span style="font-family:'Sora',sans-serif;font-size:0.6rem;font-weight:600;">Pagto</span>
+      </button>
+
+      <button data-nav="confirmacao-do-pedido" onclick="mostrarTela('confirmacao-do-pedido')" class="flex flex-col items-center gap-0.5 py-1.5 px-2 rounded-xl transition-all duration-200 relative min-w-[52px]" style="color:#94a3b8;" aria-label="Confirmação">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span style="font-family:'Sora',sans-serif;font-size:0.6rem;font-weight:600;">Pedido</span>
+      </button>
+
+      <button data-nav="meus-pedidos" onclick="mostrarTela('meus-pedidos')" class="flex flex-col items-center gap-0.5 py-1.5 px-2 rounded-xl transition-all duration-200 relative min-w-[52px]" style="color:#94a3b8;" aria-label="Meus Pedidos">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+        <span style="font-family:'Sora',sans-serif;font-size:0.6rem;font-weight:600;">Pedidos</span>
+      </button>
+
+      <button data-nav="painel-admin" onclick="mostrarTela('painel-admin')" class="flex flex-col items-center gap-0.5 py-1.5 px-2 rounded-xl transition-all duration-200 relative min-w-[52px]" style="color:#94a3b8;" aria-label="Admin">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+        <span style="font-family:'Sora',sans-serif;font-size:0.6rem;font-weight:600;">Admin</span>
+      </button>
+
+      <button data-nav="notificacoes" onclick="mostrarTela('notificacoes')" class="flex flex-col items-center gap-0.5 py-1.5 px-2 rounded-xl transition-all duration-200 relative min-w-[52px]" style="color:#94a3b8;" aria-label="Notificações">
+        <div class="relative">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+          <span id="notif-dot" class="absolute -top-0.5 -right-1 w-2.5 h-2.5 bg-red-500 rounded-full border-2 border-white"></span>
+        </div>
+        <span style="font-family:'Sora',sans-serif;font-size:0.6rem;font-weight:600;">Alertas</span>
+      </button>
+
+    </div>
+  </nav>
+
+  <!-- ===== TOASTS ===== -->
+  <div id="toast-container"></div>
+
+  <!-- ===== MODAL GENÉRICO ===== -->
+  <div id="modal-overlay" role="dialog" aria-modal="true">
+    <div id="modal-card">
+      <div class="flex items-center justify-between p-5 border-b border-slate-100">
+        <h3 id="modal-titulo" class="font-display font-bold text-marca-700 text-lg"></h3>
+        <button onclick="fecharModal()" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-slate-100 transition-colors" aria-label="Fechar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="modal-conteudo" class="p-5 overflow-y-auto" style="max-height:60vh;"></div>
+    </div>
+  </div>
+
+</div><!-- /#app-frame -->
+
+<!-- ==================== ROTEADOR E UTILITÁRIOS ==================== -->
+<script>
+(function() {
+  'use strict';
+
+  /* ---------- relógio da status bar ---------- */
+  function relogio() {
+    var el = document.getElementById('status-hora');
+    if (!el) return;
+    var d = new Date();
+    el.textContent = d.getHours().toString().padStart(2,'0') + ':' + d.getMinutes().toString().padStart(2,'0');
+  }
+  relogio(); setInterval(relogio, 10000);
+
+  /* ---------- utilitários financeiro / data ---------- */
+  window.brl = function(v) {
+    return 'R$ ' + Number(v).toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  };
+  window.dataBR = function(iso) {
+    if (!iso) return '—';
+    var p = iso.split('-');
+    return p[2] + '/' + p[1] + '/' + p[0];
+  };
+
+  /* ---------- toasts ---------- */
+  var _toastTimer = null;
+  window.toast = function(msg, tipo) {
+    var box = document.getElementById('toast-container');
+    var icones = { ok: '✓', erro: '✕', info: 'ℹ' };
+    var el = document.createElement('div');
+    el.className = 'toast-item toast-' + (tipo || 'info');
+    el.innerHTML = '<span style="font-weight:700;">' + (icones[tipo]||'ℹ') + '</span><span>' + msg + '</span>';
+    box.appendChild(el);
+    clearTimeout(_toastTimer);
+    _toastTimer = setTimeout(function() {
+      el.classList.add('sair');
+      setTimeout(function() { el.remove(); }, 300);
+    }, 3000);
+  };
+
+  /* ---------- modal ---------- */
+  window.abrirModal = function(html, titulo) {
+    document.getElementById('modal-titulo').textContent = titulo || '';
+    document.getElementById('modal-conteudo').innerHTML = html;
+    var ov = document.getElementById('modal-overlay');
+    ov.classList.add('aberto');
+    document.body.style.overflow = 'hidden';
+  };
+  window.fecharModal = function() {
+    document.getElementById('modal-overlay').classList.remove('aberto');
+    document.body.style.overflow = '';
+  };
+  document.getElementById('modal-overlay').addEventListener('click', function(e) {
+    if (e.target === this) fecharModal();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') fecharModal();
+  });
+
+  /* ---------- estado global do app ---------- */
+  window.__app = {
+    usuario: null,
+    carrinho: [],
+    pedidos: [],
+    notificacoes: [
+      { id:1, lida:false, titulo:'Promoção relâmpago', texto:'Até 40% OFF em eletrônicos. Corra!', tempo:'2 min' },
+      { id:2, lida:false, titulo:'Pedido #2847 enviado', texto:'Seu pedido saiu para entrega.', tempo:'1 h' },
+      { id:3, lida:true,  titulo:'Bem-vindo ao MeuBazar!', texto:'Complete seu cadastro e ganhe 10% OFF.', tempo:'1 dia' },
+    ],
+    produtos: [
+      { id:1, nome:'Fone Bluetooth Pro',   preco:149.90, categoria:'Eletrônicos',  imagem:'🎧', cor:'from-sky-100 to-blue-100',   rating:4.5, vendidos:1283, destaque:true  },
+      { id:2, nome:'Tênis Runner Flex',    preco:299.90, categoria:'Esportes',    imagem:'👟', cor:'from-emerald-100 to-teal-100', rating:4.8, vendidos:856,  destaque:true  },
+      { id:3, nome:'Camiseta Algodão Orgânico', preco:89.90, categoria:'Moda', imagem:'👕', cor:'from-amber-100 to-orange-100', rating:4.2, vendidos:2104, destaque:false },
+      { id:4, nome:'Cafeteira Expresso 12', preco:459.90, categoria:'Cozinha',     imagem:'☕', cor:'from-stone-100 to-neutral-200',rating:4.6, vendidos:643,  destaque:true  },
+      { id:5, nome:'Mochila Impermeável 25L',preco:189.90, categoria:'Acessórios',  imagem:'🎒',cor:'from-indigo-100 to-violet-100', rating:4.3, vendidos:972,  destaque:false },
+      { id:6, nome:'Kit Skincare Completo', preco:219.90, categoria:'Beleza',      imagem:'✨', cor:'from-pink-100 to-rose-100',    rating:4.7, vendidos:1520, destaque:true  },
+      { id:7, nome:'Luminária LED Smart',   preco:179.90, categoria:'Casa',        imagem:'💡', cor:'from-yellow-100 to-amber-100',  rating:4.1, vendidos:431,  destaque:false },
+      { id:8, nome:'Relógio Smart Sport',   preco:349.90, categoria:'Eletrônicos', imagem:'⌚', cor:'from-slate-100 to-zinc-200',   rating:4.4, vendidos:765,  destaque:false },
+    ]
+  };
+
+  /* ---------- roteador ---------- */
+  window.mostrarTela = function(id) {
+    document.querySelectorAll('[data-tela]').forEach(function(s) {
+      s.classList.toggle('hidden', s.dataset.tela !== id);
+    });
+    document.querySelectorAll('[data-nav]').forEach(function(b) {
+      b.classList.toggle('ativo', b.dataset.nav === id);
+    });
+    window.scrollTo({ top: 0 });
+  };
+
+  document.addEventListener('DOMContentLoaded', function() {
+    mostrarTela('vitrine');
+  });
+
+})();
+</script>
+</body>
+</html>
